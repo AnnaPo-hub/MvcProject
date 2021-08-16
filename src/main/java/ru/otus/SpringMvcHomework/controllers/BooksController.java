@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.otus.SpringMvcHomework.dao.AuthorDao;
 import ru.otus.SpringMvcHomework.dao.BookDao;
+import ru.otus.SpringMvcHomework.dao.GenreDao;
 import ru.otus.SpringMvcHomework.domain.Book;
 
 @Controller
@@ -13,6 +15,8 @@ import ru.otus.SpringMvcHomework.domain.Book;
 public class BooksController {
 
     private final BookDao bookDao;
+    private final AuthorDao authorDao;
+    private final GenreDao genreDao;
 
     @GetMapping("/getById")
     public String getById(@RequestParam("id") Long id, Model model) {
@@ -21,7 +25,7 @@ public class BooksController {
     }
 
     @GetMapping("/getByName")
-    public String getByName(@RequestParam("bookName") String bookName, Model model) {
+    public String getByName(@RequestParam("name") String bookName, Model model) {
         model.addAttribute("booksByName", bookDao.getByName(bookName));
         return "books/getByName";
     }
@@ -47,6 +51,8 @@ public class BooksController {
     @GetMapping("/newBook")
     public String newBook(Model model) {
         model.addAttribute("book", new Book());
+        model.addAttribute("authors", authorDao.findAll());
+        model.addAttribute("genres", genreDao.findAll());
         return "books/new";
     }
 
