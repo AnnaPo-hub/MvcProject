@@ -1,11 +1,11 @@
 package ru.otus.SpringMvcHomework.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.otus.SpringMvcHomework.dao.BookDao;
+import ru.otus.SpringMvcHomework.domain.Author;
+import ru.otus.SpringMvcHomework.domain.Book;
+import ru.otus.SpringMvcHomework.domain.Genre;
 import ru.otus.SpringMvcHomework.rest.dto.BookDto;
 
 import java.util.List;
@@ -15,8 +15,6 @@ import java.util.stream.Collectors;
 public class BooksController {
 
     private final BookDao bookDao;
-   // private final AuthorDao authorDao;
-   // private final GenreDao genreDao;
 
     @Autowired
     public BooksController( BookDao bookDao){
@@ -29,7 +27,7 @@ public class BooksController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/book/{id}")
+    @GetMapping("/api/book/{id}")
     public BookDto getById(@PathVariable Long id) {
         return BookDto.toDto(bookDao.getById(id));
     }
@@ -61,14 +59,16 @@ public class BooksController {
 //        return "books/new";
 //    }
 //
-//    @PostMapping()
-//    public String create(@ModelAttribute("book") Book book) {
-//        bookDao.save(book);
-//        return "books/success";
-//    }
-//
+    @PostMapping("/api/book")
+    public BookDto add(@RequestParam("name") String name,
+                       @RequestParam("author") String author,
+                       @RequestParam("genre") String genre) {
+        final Book savedBook = bookDao.save(new Book(null, name, new Author(null, author), new Genre(null, genre), null));
+        return BookDto.toDto(savedBook);
+    }
 
-    @DeleteMapping("/book/{id}")
+
+    @DeleteMapping("/api/book/{id}")
     public void delete(@PathVariable long id) {
         bookDao.deleteById(id);
     }

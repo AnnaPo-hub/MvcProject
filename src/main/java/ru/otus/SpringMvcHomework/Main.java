@@ -38,6 +38,6 @@ public class Main {
         genreDao.save(genre);
         genreDao.save(genre2);
         bookDao.save(new Book((long) 1, "The sun", author, genre, null));
-        bookDao.save(new Book((long) 2, "The wind", author, genre, null));
+        bookDao.save(new Book((long) 2, "The wind", author2, genre2, null));
     }
 }
