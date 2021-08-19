@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>List of books in the library</title>
+    <title>Books app</title>
     <style type="text/css">
         body {
             padding: 50px;
@@ -61,12 +61,25 @@
                         <td>${book.name}</td>
                         <td>${book.author}</td>
                         <td>${book.genre}</td>
-                        <td><button onclick="deleteBook(${book.id})">Delete Book</button></td>
+                        <td>
+                            <a href="/book/edit?id=${book.id}">Edit</a>
+                            &nbsp;&nbsp;&nbsp;
+                            <button onclick="deleteBook(${book.id})">Delete</button>
+                        </td>on></td>
                     </tr>
                 `)
             });
         })
     });
+
+ function deleteBook(id) {
+        $.ajax({
+            url: '/api/book/' + id,
+            type: 'DELETE',
+            success: function(result, status) {
+            }
+        });
+    }
 
     function addBook() {
         const name = $("#name").val();

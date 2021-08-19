@@ -1,7 +1,9 @@
 package ru.otus.SpringMvcHomework.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.SpringMvcHomework.dao.BookDao;
 import ru.otus.SpringMvcHomework.rest.dto.BookDto;
@@ -27,16 +29,10 @@ public class BooksController {
                 .collect(Collectors.toList());
     }
 
-
-
-
-
-
-//    @GetMapping("/getById")
-//    public String getById(@RequestParam("id") Long id, Model model) {
-//        model.addAttribute("booksById", bookDao.getById(id));
-//        return "books/getById";
-//    }
+    @GetMapping("/book/{id}")
+    public BookDto getById(@PathVariable Long id) {
+        return BookDto.toDto(bookDao.getById(id));
+    }
 //
 //    @GetMapping("/getByName")
 //    public String getByName(@RequestParam("name") String bookName, Model model) {
@@ -71,10 +67,10 @@ public class BooksController {
 //        return "books/success";
 //    }
 //
-//    @ResponseBody
-//    @DeleteMapping("/delete")
-//    public void delete(@RequestParam(name = "id") long id) {
-//        bookDao.deleteById(id);
-//    }
+
+    @DeleteMapping("/book/{id}")
+    public void delete(@PathVariable long id) {
+        bookDao.deleteById(id);
+    }
 }
 
