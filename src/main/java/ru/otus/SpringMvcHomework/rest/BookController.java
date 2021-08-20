@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class BooksController {
+public class BookController {
 
     private final BookDao bookDao;
 
     @Autowired
-    public BooksController( BookDao bookDao){
+    public BookController(BookDao bookDao){
         this.bookDao=bookDao;
     }
 

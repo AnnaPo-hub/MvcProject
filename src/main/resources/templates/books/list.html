@@ -13,15 +13,13 @@
             padding: 5px;
         }
 
-
     </style>
     <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" th:src="@{/js/functions.js}"></script>
-
 </head>
 <body>
-
 <h3>You can add new book here:</h3>
+<form id="new-book-form" class="w3-container">
 <div>
     <div class="row">
         <label for="name">Enter book name:</label>
@@ -30,10 +28,12 @@
         <input id="author" name="author" type="text"/>
         <label for="genre">Enter genre:</label>
         <input id="genre" name="genre" type="text"/>
-        <button onClick="addBook()"> Save book</a></button>
+        <div class="row">
+            <button type="submit" id="save-book-btn" class="w3-btn w3-aqua">Save book</button>
+        </div>
     </div>
-
 </div>
+</form>
 
 
 <h1>Books:</h1>
@@ -52,28 +52,41 @@
 
 
 <script>
-   getAllBooks();
+    getAllBooks();
 
 
+    $(document).ready(function () {
+        $("#new-book-form").submit(function (event) {
 
+            event.preventDefault();
 
+            let name = $("#name").val();
+            let author = $("#author").val();
+            let genre = $("#genre").val();
 
+            let formData = {
+                name: name,
+                author: author,
+                genre: genre
+            };
 
-
-
-    function addBook() {
-        $("#books").empty();
-        const name = $("#name").val();
-        const author = $("#author").val();
-        const genre = $("#genre").val();
-        $.post('/api/book',{name: name, author: author, genre: genre}, function(result) {
-                getAllBooks;
-            });
-    }
-
-
-
-
+            if (name === '' || author === ''||  genre==='') {
+                alert("Please fill title, author, genre");
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/book",
+                    data: {name: name, author: author, genre:genre },
+                    success: function () {
+                       // location.reload();
+                    },
+                    error: function (error) {
+                        alert("Error message:" + error.responseText);
+                    }
+                });
+            }
+        });
+    });
 </script>
 </body>
 </html>
