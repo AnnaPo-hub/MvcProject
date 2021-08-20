@@ -59,15 +59,7 @@
 
 
 
- function deleteBook(id) {
-        $.ajax({
-            url: '/api/book/' + id,
-            type: 'DELETE',
-            success: function(result, status) {
-            loadBooks();
-            }
-        });
-    }
+
 
     function addBook() {
         $("#books").empty();
@@ -75,7 +67,7 @@
         const author = $("#author").val();
         const genre = $("#genre").val();
         $.post('/api/book',{name: name, author: author, genre: genre}, function(result) {
-                loadBooks();
+                getAllBooks;
             });
     }
 
