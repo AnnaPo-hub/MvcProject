@@ -17,8 +17,8 @@ public class BookController {
     private final BookDao bookDao;
 
     @Autowired
-    public BookController(BookDao bookDao) {
-        this.bookDao = bookDao;
+    public BookController(BookDao bookDao){
+        this.bookDao=bookDao;
     }
 
     @GetMapping("/api/book")
@@ -31,7 +31,34 @@ public class BookController {
     public BookDto getById(@PathVariable Long id) {
         return BookDto.toDto(bookDao.getById(id));
     }
-
+//
+//    @GetMapping("/getByName")
+//    public String getByName(@RequestParam("name") String bookName, Model model) {
+//        model.addAttribute("booksByName", bookDao.getByName(bookName));
+//        return "books/getByName";
+//    }
+//
+//    @GetMapping("/getByGenre")
+//    public String getByGenre(@RequestParam("genre") String genre, Model model) {
+//        model.addAttribute("booksByGenre", bookDao.getByGenreName(genre));
+//        return "books/getByGenre";
+//    }
+//
+//    @GetMapping("/getByAuthor")
+//    public String getByAuthor(@RequestParam("author") String author, Model model) {
+//        model.addAttribute("booksByAuthor", bookDao.getByAuthorName(author));
+//        return "books/getByAuthor";
+//    }
+//
+//
+//    @GetMapping("/newBook")
+//    public String newBook(Model model) {
+//        model.addAttribute("book", new Book());
+//        model.addAttribute("authors", authorDao.findAll());
+//        model.addAttribute("genres", genreDao.findAll());
+//        return "books/new";
+//    }
+//
     @PostMapping("/api/book")
     public BookDto add(@RequestParam("name") String name,
                        @RequestParam("author") String author,
@@ -39,6 +66,7 @@ public class BookController {
         final Book savedBook = bookDao.save(new Book(null, name, new Author(null, author), new Genre(null, genre), null));
         return BookDto.toDto(savedBook);
     }
+
 
     @DeleteMapping("/api/book/{id}")
     public void delete(@PathVariable long id) {
