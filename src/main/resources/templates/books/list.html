@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>Books app</title>
@@ -16,6 +16,8 @@
 
     </style>
     <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/functions.js}"></script>
+
 </head>
 <body>
 
@@ -50,55 +52,12 @@
 
 
 <script>
+   getAllBooks();
 
 
-function getAllBooks(){
-        $.get('/api/book').done(books => printAllBooks(books))
-}
 
-function printAllBooks(books){
-    if(typeof books !== 'undefined' && books.length >0){
-     books.forEach(function(book){
-     $('tbody').append(`
-         <tr>
-            <td>${book.id}</td>
-            <td>${book.name}</td>
-            <td>${book.author}</td>
-            <td>${book.genre}</td>
-            <td>
-               <button onclick="deleteBook(${book.id})">Delete</button>
-             </td>
-             </tr>
-             `)
 
-    });
-    }else {
-        $('tbody').append(`
-                        <tr>
-                            <td colspan="2"> No Books Available </td>
-                        </tr>
-                 `)
-    }
-    }
 
-    function loadBooks(){
-        $('#books').empty();
-        $.get('/api/book').done(function (books) {
-            books.forEach(function (book) {
-                $('tbody').append(`
-                    <tr>
-                        <td>${book.id}</td>
-                        <td>${book.name}</td>
-                        <td>${book.author}</td>
-                        <td>${book.genre}</td>
-                        <td>
-                            <button onclick="deleteBook(${book.id})">Delete</button>
-                        </td>
-                    </tr>
-                `)
-            });
-        })
-    }
 
  function deleteBook(id) {
         $.ajax({
@@ -120,7 +79,7 @@ function printAllBooks(books){
             });
     }
 
-    getAllBooks();
+
 
 
 </script>
