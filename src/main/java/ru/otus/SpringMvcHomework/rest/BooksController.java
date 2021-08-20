@@ -21,7 +21,7 @@ public class BooksController {
         this.bookDao=bookDao;
     }
 
-    @GetMapping("/api/books")
+    @GetMapping("/api/book")
     public List<BookDto> getAllBooks() {
         return bookDao.findAll().stream().map(BookDto::toDto)
                 .collect(Collectors.toList());
