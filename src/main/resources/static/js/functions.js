@@ -6,7 +6,7 @@ function getAllBooks(){
 function printAllBooks(books){
     if(typeof books !== 'undefined' && books.length >0){
     books.forEach(function(book){
-    $('tbody').append(`
+    $('#existingBooks').append(`
          <tr>
             <td>${book.id}</td>
             <td>${book.name}</td>
@@ -20,7 +20,7 @@ function printAllBooks(books){
 
     });
     }else {
-        $('tbody').append(`
+        $('#existingBooks').append(`
                         <tr>
                             <td colspan="2"> No Books Available </td>
                         </tr>
