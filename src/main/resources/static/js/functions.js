@@ -34,7 +34,7 @@ function printAllBooks(books){
              type: 'DELETE',
              url: '/api/book/' + id,
              success: function() {
-                 $('tbody').children().remove();
+                 $('#existingBooks').children().remove();
              getAllBooks();
              }
          });
