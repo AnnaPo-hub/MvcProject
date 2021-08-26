@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Books app</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .persons, .persons td {
+            border: 1px solid lightgray;
+            padding: 5px;
+        }
+
+    </style>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/functions.js}"></script>
+</head>
+<body>
+<h3>You can add new book here:</h3>
+<form id="new-book-form" class="w3-container">
+<div>
+    <div class="row">
+        <label for="name">Enter book name:</label>
+        <input id="name" name="name" type="text"/>
+        <label for="author">Enter author:</label>
+        <input id="author" name="author" type="text"/>
+        <label for="genre">Enter genre:</label>
+        <input id="genre" name="genre" type="text"/>
+        <div class="row">
+            <button type="submit" id="save-book-btn" class="w3-btn w3-aqua">Save book</button>
+        </div>
+    </div>
+</div>
+</form>
+
+
+<h1>Books:</h1>
+<table class="books" id="books">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Author</th>
+        <th>Genre</th>
+    </tr>
+    </thead>
+    <tbody id="existingBooks">
+    </tbody>
+</table>
+
+
+<script>
+    getAllBooks();
+
+
+    $(document).ready(function () {
+        $("#new-book-form").submit(function (event) {
+
+            event.preventDefault();
+
+            let name = $("#name").val();
+            let author = $("#author").val();
+            let genre = $("#genre").val();
+
+            let formData = {
+                name: name,
+                author: author,
+                genre: genre
+            };
+
+            if (name === '' || author === ''||  genre==='') {
+                alert("Please fill title, author, genre");
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/book",
+                    data: {name: name, author: author, genre:genre },
+                    success: function () {
+                          $('#existingBooks').empty();
+                          getAllBooks();
+                    },
+                    error: function (error) {
+                        alert("Error message:" + error.responseText);
+                    }
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>
