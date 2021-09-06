@@ -18,6 +18,11 @@ public class BooksController {
     private final AuthorDao authorDao;
     private final GenreDao genreDao;
 
+    @GetMapping("/login")
+    public String login() {
+        return "/books/login";
+    }
+
     @GetMapping("/getById")
     public String getById(@RequestParam("id") Long id, Model model) {
         model.addAttribute("booksById", bookDao.getById(id));
