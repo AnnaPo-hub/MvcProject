@@ -16,26 +16,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("admin").password("adminPass").roles("ADMIN")
+                .withUser("admin").password(passwordEncoder().encode("adminPass")).roles("ADMIN")
                 .and()
                 .withUser("user1").password(passwordEncoder().encode("userPass")).roles("USER");
-        ;
     }
-
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                //.antMatchers("/admin/**").hasRole("ADMIN")
-                //.antMatchers("/user1/**").hasRole("USER")
-                .antMatchers("/books/showAll/").anonymous()
+                .antMatchers("/books/showAll/").permitAll()
+                .antMatchers("/books/getById/").permitAll()
                 .and()
                 .authorizeRequests()
                 .antMatchers("/books/newBook").authenticated()
-                //  .antMatchers("/login*").permitAll()
-                // .anyRequest().authenticated()
+                .antMatchers("/books/getByName").authenticated()
+                .antMatchers("/books/getByAuthor").authenticated()
+                .antMatchers("/books/getByGenre").authenticated()
+                .antMatchers("/books/delete").authenticated()
                 .and()
                 .httpBasic()
                 .and()
@@ -46,16 +45,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         ;
     }
 
-        //form login and logout:
-//                .formLogin()
-//                .loginPage("/login.html")
-//                .loginProcessingUrl("/perform_login")
-//                .defaultSuccessUrl("/showAll.html", true)
-//                .failureUrl("/login.html?error=true");
-
-
-
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -65,6 +54,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web.ignoring()
                 .antMatchers("/")
-                .antMatchers( "/static/**" );
+                .antMatchers("/static/**");
     }
 }
