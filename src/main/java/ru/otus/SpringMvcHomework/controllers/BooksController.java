@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.*;
 import ru.otus.SpringMvcHomework.domain.Book;
 import ru.otus.SpringMvcHomework.service.BookService;
 
+import java.util.Map;
+
 @Controller
 @AllArgsConstructor
 @RequestMapping("/books")
 public class BooksController {
 
     private final BookService bookService;
-//    private final AuthorDao authorDao;
-//    private final GenreDao genreDao;
 
     @GetMapping("/getById")
     public String getById(@RequestParam("id") Long id, Model model) {
@@ -46,13 +46,12 @@ public class BooksController {
         return "books/showAll";
     }
 
-//    @GetMapping("/newBook")
-//    public String newBook(Model model) {
-//        model.addAttribute("book", new Book());
-//        model.addAttribute("authors", authorDao.findAll());
-//        model.addAttribute("genres", genreDao.findAll());
-//        return "books/new";
-//    }
+    @GetMapping("/newBook")
+    public String newBook(Map<String, Object> model) {
+        Book book = new Book();
+        model.put("book", book);
+        return "books/new";
+    }
 
     @PostMapping()
     public String create(@ModelAttribute("book") Book book) {

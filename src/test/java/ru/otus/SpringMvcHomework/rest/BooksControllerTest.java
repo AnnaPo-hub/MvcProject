@@ -29,20 +29,13 @@ public class BooksControllerTest {
     @MockBean
     private BookService bookService;
 
-//    @MockBean
-//    private BookDao bookDao;
-//    @MockBean
-//    private GenreDao genreDao;
-
     @BeforeEach
     void init() {
         Author author = new Author((long) 1, "Blok");
         Genre genre = new Genre((long) 1, "Poetry");
         Book book = new Book((long) 1, "The sun", author, genre, null);
         Mockito.when(bookService.showAllBooks()).thenReturn(List.of(book));
-
     }
-
 
     @WithMockUser(
             username = "admin",
@@ -55,7 +48,6 @@ public class BooksControllerTest {
 
         mockMvc.perform(get("/books"))
                 .andExpect(status().isOk());
-
     }
 
     @WithMockUser(
@@ -81,6 +73,4 @@ public class BooksControllerTest {
         mockMvc.perform(get("/getByGenre"))
                 .andExpect(status().is4xxClientError());
     }
-
-
 }
