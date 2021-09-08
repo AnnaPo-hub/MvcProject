@@ -6,9 +6,9 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/books}" th:object="${book}">
+<form th:action="@{/books}" th:method="POST" th:object="${book}">
     <label for="name">Enter book name: </label>
-    <input type="text" th:field="*{name}" id="name"/>
+    <input id="name" th:field="*{name}" type="text"/>
 
 
     <div>
@@ -16,8 +16,8 @@
         <select id="author" th:field="*{author}">
             <option value="0">Select author</option>
             <option th:each="author :${authors}"
-                    th:value="${author.id}"
-                    th:text="${author.name}"></option>
+                    th:text="${author.name}"
+                    th:value="${author.id}"></option>
         </select>
     </div>
 
@@ -27,8 +27,8 @@
         <select th:field="*{genre}">
             <option value="0">Select genre</option>
             <option th:each="genre :${genres}"
-                    th:value="${genre.id}"
-                    th:text="${genre.name}"></option>
+                    th:text="${genre.name}"
+                    th:value="${genre.id}"></option>
         </select>
     </div>
 

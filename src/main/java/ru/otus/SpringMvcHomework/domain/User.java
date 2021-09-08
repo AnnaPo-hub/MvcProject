@@ -28,6 +28,5 @@ public class User {
 
     @Column(name = "enabled")
     private Boolean enabled;
-
 }
 

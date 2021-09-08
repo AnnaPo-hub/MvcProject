@@ -9,9 +9,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.SpringMvcHomework.controllers.BooksController;
+import ru.otus.SpringMvcHomework.dao.AuthorDao;
+import ru.otus.SpringMvcHomework.dao.GenreDao;
 import ru.otus.SpringMvcHomework.domain.Author;
 import ru.otus.SpringMvcHomework.domain.Book;
 import ru.otus.SpringMvcHomework.domain.Genre;
+import ru.otus.SpringMvcHomework.security.AppUserDetailsService;
 import ru.otus.SpringMvcHomework.service.BookService;
 
 import java.util.List;
@@ -21,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @WebMvcTest(BooksController.class)
+@MockBean(AppUserDetailsService.class)
 public class BooksControllerTest {
 
     @Autowired
@@ -28,6 +32,12 @@ public class BooksControllerTest {
 
     @MockBean
     private BookService bookService;
+
+    @MockBean(GenreDao.class)
+    private GenreDao genreDao;
+
+    @MockBean(AuthorDao.class)
+    private AuthorDao authorDao;
 
     @BeforeEach
     void init() {
