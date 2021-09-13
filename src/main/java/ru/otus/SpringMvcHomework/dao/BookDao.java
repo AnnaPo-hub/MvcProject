@@ -31,5 +31,8 @@ public interface BookDao extends JpaRepository<Book, Long> {
     @SuppressWarnings("unchecked")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     Book save(@Param("book") Book book);
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    void deleteById(Long id);
 }
 

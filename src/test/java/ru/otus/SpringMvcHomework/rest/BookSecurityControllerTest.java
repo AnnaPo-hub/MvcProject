@@ -1,6 +1,5 @@
 package ru.otus.SpringMvcHomework.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -10,7 +9,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.SpringMvcHomework.domain.Author;
 import ru.otus.SpringMvcHomework.domain.Book;
 import ru.otus.SpringMvcHomework.domain.Genre;
@@ -31,12 +29,8 @@ public class BookSecurityControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
     private BookService bookService;
 
-    @DirtiesContext
     @Test
     @WithMockUser(username = "user")
     public void userShouldGetAllBooks() {
@@ -46,7 +40,6 @@ public class BookSecurityControllerTest {
         assertEquals(3, books.size());
     }
 
-    @DirtiesContext
     @Test
     @WithMockUser(username = "admin")
     public void adminShouldGetAllBooks() {
@@ -56,7 +49,6 @@ public class BookSecurityControllerTest {
         assertEquals(3, books.size());
     }
 
-    @DirtiesContext
     @Test
     @WithMockUser(authorities = {"ROLE_ADMIN"})
     public void adminShouldCreateBook() {
@@ -64,7 +56,6 @@ public class BookSecurityControllerTest {
         assertNotNull(book);
     }
 
-    @DirtiesContext
     @Test
     @WithMockUser(username = "user")
     public void userShouldNotCreateBook() {
@@ -77,18 +68,20 @@ public class BookSecurityControllerTest {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
-    @DirtiesContext
     @Test
     @WithMockUser(username = "user")
-    @Transactional
     public void userShouldNotDeleteBook() {
-        bookService.deleteBookById((long) 4);
-        assertNotEquals(Optional.empty(), bookService.findBookById((long) 4));
+        Exception exception = assertThrows(AccessDeniedException.class, () -> {
+            bookService.deleteBookById((long)3);
+        });
+
+        String expectedMessage = "Access is denied";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 
-    @DirtiesContext
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(authorities = {"ROLE_ADMIN"})
     public void adminShouldDeleteBook() {
         bookService.createBook(new Book((long) 4, "New book title", new Author((long) 1, "Blok"), new Genre((long) 1, "Poetry")));
         bookService.deleteBookById((long) 4);
