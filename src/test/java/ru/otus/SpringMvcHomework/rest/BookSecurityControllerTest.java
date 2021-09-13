@@ -30,13 +30,20 @@ public class BookSecurityControllerTest {
 
     @Test
     @WithMockUser(username = "user")
-    public void userShouldGetAllBooks(){
+    public void userShouldGetAllBooks() {
         final List<Book> books = bookService.showAllBooks();
+        System.out.println(books);
         assertNotNull(books);
         assertEquals(3, books.size());
+    }
 
-
-
+    @Test
+    @WithMockUser(username = "admin")
+    public void userShouldGetOneBook() {
+        final List<Book> books = bookService.showAllBooks();
+        System.out.println(books);
+        assertNotNull(books);
+        assertEquals(3, books.size());
     }
 }
 
