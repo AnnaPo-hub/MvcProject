@@ -17,11 +17,11 @@ import javax.annotation.PostConstruct;
 public class Main {
     @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
-    BookDao bookDao;
+    private BookDao bookDao;
     @Autowired
-    GenreDao genreDao;
+    private GenreDao genreDao;
     @Autowired
-    AuthorDao authorDao;
+    private AuthorDao authorDao;
 
     public static void main(String[] args) {
         SpringApplication.run(Main.class);
