@@ -3,12 +3,14 @@ package ru.otus.SpringMvcHomework.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.SpringMvcHomework.domain.Author;
 import ru.otus.SpringMvcHomework.domain.Book;
 import ru.otus.SpringMvcHomework.domain.Genre;
@@ -21,7 +23,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 public class BookSecurityControllerTest {
 
     @Autowired
@@ -33,6 +36,7 @@ public class BookSecurityControllerTest {
     @Autowired
     private BookService bookService;
 
+    @DirtiesContext
     @Test
     @WithMockUser(username = "user")
     public void userShouldGetAllBooks() {
@@ -42,6 +46,7 @@ public class BookSecurityControllerTest {
         assertEquals(3, books.size());
     }
 
+    @DirtiesContext
     @Test
     @WithMockUser(username = "admin")
     public void adminShouldGetAllBooks() {
@@ -51,13 +56,15 @@ public class BookSecurityControllerTest {
         assertEquals(3, books.size());
     }
 
+    @DirtiesContext
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(authorities = {"ROLE_ADMIN"})
     public void adminShouldCreateBook() {
         final Book book = bookService.createBook(new Book((long) 4, "New book title", new Author((long) 1, "Blok"), new Genre((long) 1, "Poetry")));
         assertNotNull(book);
     }
 
+    @DirtiesContext
     @Test
     @WithMockUser(username = "user")
     public void userShouldNotCreateBook() {
@@ -70,22 +77,22 @@ public class BookSecurityControllerTest {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
-
+    @DirtiesContext
     @Test
     @WithMockUser(username = "user")
+    @Transactional
     public void userShouldNotDeleteBook() {
-        final Optional<Book> book = bookService.findBookById((long) 1);
-        System.out.println(book);
-        // bookService.deleteBookById((long) 1);
-
-        // assertEquals();
+        bookService.deleteBookById((long) 4);
+        assertNotEquals(Optional.empty(), bookService.findBookById((long) 4));
     }
 
+    @DirtiesContext
     @Test
     @WithMockUser(username = "admin")
     public void adminShouldDeleteBook() {
-        bookService.deleteBookById((long) 1);
-        assertEquals(Optional.empty(), bookService.findBookById((long) 1));
+        bookService.createBook(new Book((long) 4, "New book title", new Author((long) 1, "Blok"), new Genre((long) 1, "Poetry")));
+        bookService.deleteBookById((long) 4);
+        assertEquals(Optional.empty(), bookService.findBookById((long) 4));
     }
 }
 

@@ -29,7 +29,7 @@ public interface BookDao extends JpaRepository<Book, Long> {
     Book getById(Long id);
 
     @SuppressWarnings("unchecked")
-    @PreAuthorize("hasPermission(#book, 'WRITE')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     Book save(@Param("book") Book book);
 }
 

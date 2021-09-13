@@ -1,7 +1,6 @@
 package ru.otus.SpringMvcHomework.controllers;
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +49,7 @@ public class BooksController {
     }
 
 
-  //  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+   // @PreAuthorize("hasPermission(#book, 'WRITE')")
     @GetMapping("/newBook")
     public String newBook(Model model) {
         model.addAttribute("book", new Book());
@@ -59,14 +58,14 @@ public class BooksController {
         return "books/new";
     }
 
-   // @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+   // @PreAuthorize("hasPermission(#book, 'WRITE')")
     @PostMapping()
     public String create(@ModelAttribute("book") Book book) {
         bookService.createBook(book);
         return "books/success";
     }
 
-    @PreAuthorize("hasPermission(#book,'WRITE')")
+   // @PreAuthorize("hasPermission(#book,'WRITE')")
     @ResponseBody
     @DeleteMapping("/delete")
     public void delete(@RequestParam(name = "id") long id) {
