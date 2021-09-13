@@ -13,10 +13,13 @@ import java.util.List;
 
 @Component
 public interface BookDao extends JpaRepository<Book, Long> {
+    @PostFilter("hasPermission(returnObject, 'READ')")
     List<Book> getByName(String bookName);
 
+    @PostFilter("hasPermission(returnObject, 'READ')")
     List<Book> getByGenreName(String genre);
 
+    @PostFilter("hasPermission(returnObject, 'READ')")
     List<Book> getByAuthorName(String authorName);
 
     @PostFilter("hasPermission(filterObject, 'READ')")
@@ -26,7 +29,7 @@ public interface BookDao extends JpaRepository<Book, Long> {
     Book getById(Long id);
 
     @SuppressWarnings("unchecked")
-    @PreAuthorize("hasPermission(#noticeMessage, 'WRITE')")
+    @PreAuthorize("hasPermission(#book, 'WRITE')")
     Book save(@Param("book") Book book);
 }
 
