@@ -13,6 +13,7 @@ import ru.otus.SpringMvcHomework.domain.Author;
 import ru.otus.SpringMvcHomework.domain.Book;
 import ru.otus.SpringMvcHomework.domain.Genre;
 import ru.otus.SpringMvcHomework.service.BookService;
+import ru.otus.SpringMvcHomework.service.UserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +32,9 @@ public class BookSecurityControllerTest {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private UserService userService;
+
     @Test
     @WithMockUser(username = "user")
     public void userShouldGetAllBooks() {
@@ -44,7 +48,6 @@ public class BookSecurityControllerTest {
     @WithMockUser(username = "admin")
     public void adminShouldGetAllBooks() {
         final List<Book> books = bookService.showAllBooks();
-        System.out.println(books);
         assertNotNull(books);
         assertEquals(3, books.size());
     }
@@ -52,8 +55,11 @@ public class BookSecurityControllerTest {
     @Test
     @WithMockUser(authorities = {"ROLE_ADMIN"})
     public void adminShouldCreateBook() {
-        final Book book = bookService.createBook(new Book((long) 4, "New book title", new Author((long) 1, "Blok"), new Genre((long) 1, "Poetry")));
+        final Book book = userService.add(new Book((long) 4, "New book title", new Author((long) 1, "Blok"), new Genre((long) 1, "Poetry")));
         assertNotNull(book);
+        final List<Book> books = bookService.showAllBooks();
+        assertNotNull(books);
+        assertEquals(4, books.size());
     }
 
     @Test

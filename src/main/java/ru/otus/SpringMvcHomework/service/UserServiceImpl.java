@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
         final Sid owner = new PrincipalSid(authentication);
         ObjectIdentity oid = new ObjectIdentityImpl(book.getClass(), book.getId());
 
-        final Sid admin = new GrantedAuthoritySid("admin");
+        final Sid admin = new GrantedAuthoritySid("ROLE_ADMIN");
 
         MutableAcl acl = mutableAclService.createAcl(oid);
         acl.setOwner(owner);

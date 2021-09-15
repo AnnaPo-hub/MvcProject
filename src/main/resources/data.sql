@@ -14,7 +14,7 @@ insert into book(id,name, author_id, genre_id) values
   (3,'Snowing', '3','3');
 
 insert into acl_sid (id, principal, sid) values
-(1, 1, 'admin'),
+(1, 1, 'ROLE_ADMIN'),
 (2, 1, 'user');
 
 insert into acl_class (id, class) values
