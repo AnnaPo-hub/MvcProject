@@ -13,11 +13,12 @@ import java.util.Optional;
 @AllArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookDao bookDao;
+    private final UserService userService;
 
     @Transactional
     @Override
     public Book createBook(Book book) {
-        return bookDao.save(book);
+        return userService.add(book);
     }
 
     @Override
