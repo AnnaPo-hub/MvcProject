@@ -9,6 +9,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.SpringMvcHomework.domain.Author;
 import ru.otus.SpringMvcHomework.domain.Book;
 import ru.otus.SpringMvcHomework.domain.Genre;
@@ -53,6 +54,7 @@ public class BookSecurityControllerTest {
     }
 
     @Test
+    @Transactional
     @WithMockUser(authorities = {"ROLE_ADMIN"})
     public void adminShouldCreateBook() {
         final Book book = userService.add(new Book((long) 4, "New book title", new Author((long) 1, "Blok"), new Genre((long) 1, "Poetry")));
@@ -78,7 +80,7 @@ public class BookSecurityControllerTest {
     @WithMockUser(username = "user")
     public void userShouldNotDeleteBook() {
         Exception exception = assertThrows(AccessDeniedException.class, () -> {
-            bookService.deleteBookById((long)3);
+            bookService.deleteBookById((long) 3);
         });
 
         String expectedMessage = "Access is denied";

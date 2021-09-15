@@ -5,5 +5,5 @@ import ru.otus.SpringMvcHomework.domain.Book;
 
 @Service
 public interface UserService {
-    public Book add( Book book );
+    public Book add(Book book);
 }

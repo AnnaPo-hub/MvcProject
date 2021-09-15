@@ -13,12 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    // private final AppUserDetailsService userDetailsService;
-
     @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService)
-//                .passwordEncoder(passwordEncoder());
+
         auth.inMemoryAuthentication()
                 .withUser("admin").password(passwordEncoder().encode("password")).roles("ADMIN")
                 .and()

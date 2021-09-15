@@ -27,7 +27,4 @@ public class Book {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "genre_id", foreignKey = @ForeignKey(name = "fk_genre_id"))
     private Genre genre;
-
-//    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
-//    private List<Comment> comment;
 }

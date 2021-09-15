@@ -48,8 +48,6 @@ public class BooksController {
         return "books/showAll";
     }
 
-
-   // @PreAuthorize("hasPermission(#book, 'WRITE')")
     @GetMapping("/newBook")
     public String newBook(Model model) {
         model.addAttribute("book", new Book());
@@ -58,14 +56,12 @@ public class BooksController {
         return "books/new";
     }
 
-   // @PreAuthorize("hasPermission(#book, 'WRITE')")
     @PostMapping()
     public String create(@ModelAttribute("book") Book book) {
         bookService.createBook(book);
         return "books/success";
     }
 
-   // @PreAuthorize("hasPermission(#book,'WRITE')")
     @ResponseBody
     @DeleteMapping("/delete")
     public void delete(@RequestParam(name = "id") long id) {

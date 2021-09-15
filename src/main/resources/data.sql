@@ -14,7 +14,7 @@ insert into book(id,name, author_id, genre_id) values
   (3,'Snowing', '3','3');
 
 insert into acl_sid (id, principal, sid) values
-(1, 1, 'ROLE_ADMIN'),
+(1, 1, 'admin'),
 (2, 1, 'user');
 
 insert into acl_class (id, class) values
@@ -30,11 +30,9 @@ insert into acl_entry (id, acl_object_identity, ace_order, sid, mask,
 (1, 1, 1, 1, 1, 1, 1, 1),
 (2, 1, 2, 1, 2, 1, 1, 1),
 (3, 1, 3, 2, 1, 1, 1, 1),
-
 (4, 2, 1, 1, 1, 1, 1, 1),
 (5, 2, 2, 1, 2, 1, 1, 1),
 (6, 2, 3, 2, 1, 1, 1, 1),
-
 (7, 3, 1, 1, 1, 1, 1, 1),
 (8, 3, 2, 1, 2, 1, 1, 1),
 (9, 3, 3, 2, 1, 1, 1, 1);

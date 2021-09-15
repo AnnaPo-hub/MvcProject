@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
         MutableAcl acl = mutableAclService.createAcl(oid);
         acl.setOwner(owner);
-        acl.insertAce(acl.getEntries().size(), BasePermission.ADMINISTRATION, admin, true);
+        acl.insertAce(acl.getEntries().size(), BasePermission.READ, admin, true);
 
         mutableAclService.updateAcl(acl);
         return savedBook;
