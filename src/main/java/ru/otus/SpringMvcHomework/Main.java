@@ -12,7 +12,6 @@ import ru.otus.SpringMvcHomework.domain.Genre;
 
 import javax.annotation.PostConstruct;
 
-
 @SpringBootApplication
 public class Main {
     @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
