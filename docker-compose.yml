@@ -5,9 +5,10 @@ services:
       context: .
       dockerfile: Dockerfile
     privileged: true
+    depends_on:
+      - postgres
     ports:
       - "8080:8080"
-    # Эти свойства перегружают соответствующие в application.yml
 
     networks:
       - nw
